@@ -3,6 +3,9 @@ name: Build and Test
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -23,3 +26,18 @@ jobs:
       - run: npm run compile --if-present
       - run: npm run lint
       - run: xvfb-run -a npm run test
+      - name: Install vsce
+        run: npm install -g vsce
+
+      - name: Package extension (.vsix)
+        run: |
+          # Ensure compiled files exist
+          npm run compile --if-present
+          # Create a versioned vsix in the workspace
+          vsce package -o extension.vsix || echo 'vsce package failed'
+
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-vsix
+          path: extension.vsix

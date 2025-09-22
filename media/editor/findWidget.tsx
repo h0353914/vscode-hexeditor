@@ -42,7 +42,9 @@ const selectedFormat = new Intl.NumberFormat();
  * Parses a query like "AABB??DD" or "AA BB DD" into a query looking for
  * `[[170, 187], "*", [221]]`.
  */
-const parseHexStringWithPlaceholders = (str: string): LiteralSearchQuery | undefined => {
+const parseHexStringWithPlaceholders = (input: string): LiteralSearchQuery | undefined => {
+	const str = input.replace(/\s+/g, "");
+
 	const value = new Uint8Array(Math.ceil(str.length / 2));
 	let valueStart = 0;
 	let valueEnd = 0;
@@ -77,7 +79,8 @@ const parseHexStringWithPlaceholders = (str: string): LiteralSearchQuery | undef
 
 const getReplaceOrError = (replace: string, isBinaryMode: boolean) => {
 	if (isBinaryMode) {
-		return isHexString(replace) ? hexDecode(replace) : strings.onlyHexChars;
+		const normalized = replace.replace(/\s+/g, "");
+		return isHexString(normalized) ? hexDecode(normalized) : strings.onlyHexChars;
 	}
 
 	return new TextEncoder().encode(replace);

@@ -33,6 +33,11 @@ jobs:
         run: |
           # Ensure compiled files exist
           npm run compile --if-present
+          # Copy any localization files bundled in the repo's Localization/ folder
+          # into the workspace root so they are included in the vsix produced by vsce.
+          if [ -d Localization ]; then
+            cp -r Localization/* . || true
+          fi
           # Create a versioned vsix in the workspace
           vsce package -o extension.vsix || echo 'vsce package failed'
 

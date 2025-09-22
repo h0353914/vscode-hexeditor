@@ -126,7 +126,7 @@ export const FindWidget: React.FC = () => {
 	const [replaceVisible, setReplaceVisible] = usePersistedState("find.replacevisible", false);
 	const [query, setQuery] = usePersistedState("find.query", "");
 	const [replace, setReplace] = usePersistedState("find.replace", "");
-	const [isBinaryMode, setIsBinaryMode] = usePersistedState("find.isBinaryMode", false);
+	const [isBinaryMode, setIsBinaryMode] = usePersistedState("find.isBinaryMode", true);
 	const [isRegexp, setIsRegexp] = usePersistedState("find.isRegexp", false);
 	const [isCaseSensitive, setIsCaseSensitive] = usePersistedState("find.isCaseSensitive", false);
 	const [results, setResults] = useRecoilState(select.searchResults);
